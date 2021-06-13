@@ -1,0 +1,15 @@
+{
+  "name": "myfplbot",
+  "version": "1.0.0",
+  "description": "Fantasy Premier League telegram bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mohamed Fazil",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "telegraf": "^4.3.0"
+  }
+}
