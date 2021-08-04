@@ -2,7 +2,7 @@ require('dotenv').config(); //loads variables into process.env
 
 const token = process.env.TOKEN;
 const {Telegraf, Extra, Markup, Scenes, Stage, session} = require('telegraf');
-const {parseLeagueDetails, parseCurrentGameweekFixtures} = require('./services/parser');
+const {parseLeagueDetails, parseCurrentGameweekFixtures, parseMyTeam} = require('./services/parser');
 const bot = new Telegraf(token);
 bot.use(session());
 
@@ -37,14 +37,11 @@ bot.action('fixtures', ctx => {
     parseCurrentGameweekFixtures().then(res => ctx.reply(res));
 });
 
-bot.action('myteam', ctx => {
-    ctx.reply('Please key in your league id:', { reply_markup: { keyboard: [[{text: '📲 Send phone number', request_contact: true}]] } }
-    )
-});
+
 
 const viewLeagueDetails = new Scenes.WizardScene("myleague",
 ctx => { 
-    ctx.reply("Please key in your league id");
+    ctx.reply("Please key in your league id.");
     return ctx.wizard.next();
 },
 ctx =>{
@@ -58,10 +55,40 @@ ctx =>{
     return ctx.scene.leave();
 });
 
-const stage = new Scenes.Stage([viewLeagueDetails], { default: "myleague" });
+const viewMyTeam = new Scenes.WizardScene("myteam",
+ctx => { 
+    ctx.reply("Please key in your login email.");
+    return ctx.wizard.next();
+},
+ctx =>{
+    ctx.wizard.state.login = ctx.message.text;
+    ctx.reply(`Got it! Your email is ${ctx.wizard.state.login}.\n Next, please key in your password.`);
+    return ctx.wizard.next();
+},
+ctx =>{
+    ctx.wizard.state.password = ctx.message.text;
+    ctx.reply(`Got it! Your password is ${ctx.wizard.state.password}.\n Finally, please key in your managerid.`);
+    return ctx.wizard.next();
+},
+ctx =>{
+    ctx.wizard.state.managerid = ctx.message.text;
+    ctx.reply(`Got it! Your managerid is ${ctx.wizard.state.manager}.\n Please wait while I retrieve your team details.`);
+    parseMyTeam(ctx.wizard.state.login, ctx.wizard.state.password, ctx.wizard.state.managerid).then(data => ctx.reply(data));
+    return ctx.scene.leave();
+},
+);
 
 
+
+const stage = new Scenes.Stage([viewLeagueDetails, viewMyTeam]);
 bot.use(stage.middleware());
+bot.action('myteam', ctx => {
+    ctx.scene.enter('myteam');
+})
+//{ default: "myleague" }
+
+
+
 bot.startPolling(); // Start polling bot from you computer
 
 
