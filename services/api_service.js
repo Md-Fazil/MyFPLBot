@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { get } = require('superagent');
 const header = {headers: {'user-agent':'not axios'}};
 
 const getLeagueDetails = (id) => {
@@ -7,19 +6,19 @@ const getLeagueDetails = (id) => {
 }
 
 const getFixtures = () => {
-    return axios.get(`https://fantasy.premierleague.com/api/fixtures/`, header).then(response => { return response.data});
+    return axios.get(`https://fantasy.premierleague.com/api/fixtures/`, header).then(response => response.data);
 }
 
 const getGeneralDetails = () => {
-    return axios.get('https://fantasy.premierleague.com/api/bootstrap-static/', header).then(response => {return response.data});
+    return axios.get('https://fantasy.premierleague.com/api/bootstrap-static/', header).then(response => response.data);
 }
 
 const getTeamDetails = () => {
-    return getGeneralDetails().then(response => {return response.teams});
+    return getGeneralDetails().then(response => response.teams);
 }
 
 const getPlayerDetails = () => {
-    return getGeneralDetails().then(response => { return response.elements});
+    return getGeneralDetails().then(response => response.elements);
 }
 
 //requires authenthication
@@ -28,7 +27,7 @@ const getManagerDetails = (managerid) => {
 }
 
 const getUserBasicInformation = (managerid) => {
-    return axios.get(`https://fantasy.premierleague.com/api/entry/${managerid}/`, header).then(response => {return response.data});
+    return axios.get(`https://fantasy.premierleague.com/api/entry/${managerid}/`, header).then(response => response.data);
 }
 //getUserBasicInformation('2389247').then(x => console.log(x.leagues.classic));
 
