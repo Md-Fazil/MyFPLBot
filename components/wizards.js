@@ -1,10 +1,10 @@
 const {Scenes} = require('telegraf');
 const {isValidLeagueId, isValidManagerId, parseLeagueId, parseLeagueDetails, parseMyTeam, parseLeagueStandings, parseCurrentGameweekFixtures} = require('../services/parser');
-const {setManagerId, invalidManagerId, invalidLeagueId} = require('../components/messages');
+const {setManagerIdMessage, invalidManagerId, invalidLeagueId} = require('../components/messages');
 
 const setManagerId = new Scenes.WizardScene("setmanagerid",
 ctx => { 
-    ctx.reply(setManagerId);
+    ctx.reply(setManagerIdMessage);
     return ctx.wizard.next();
 },
 ctx =>{

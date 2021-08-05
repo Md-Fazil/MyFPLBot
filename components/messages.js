@@ -17,4 +17,4 @@ const invalidManagerId = "Please provide a valid manager id. E.g. 123456";
 
 const invalidLeagueId = "Please provide a valid league id. E.g. /league 123456";
 
-module.exports = {welcome, helpMessage, setManagerId, invalidManagerId, invalidLeagueId};
+module.exports = {welcome, help, setManagerIdMessage : setManagerId, invalidManagerId, invalidLeagueId};
