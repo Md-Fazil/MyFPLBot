@@ -1,6 +1,23 @@
 const {getLeagueDetails, getTeamDetails, getFixtures, getPlayerDetails, getUserBasicInformation} = require('./api_service');
 const {login} = require('./login_service');
 
+const isValidLeagueId = (id) => {
+    const values = id.trim().split(/(\s+)/);
+    const isValidLength = values.length == 3;
+    const isNum = isValidLength ? /^\d+$/.test(values[2]) : false;
+    return isValidLength && isNum; 
+}
+
+const isValidManagerId = (id) => {
+    const values = id.trim().split(/(\s+)/);
+    const isValidLength = values.length == 1;
+    const isNum = /^\d+$/.test(values[0]);
+    return isValidLength && isNum; 
+}
+
+const parseLeagueId = (id) =>{
+    return id.trim().split(/(\s+)/)[2];
+}
 
 const parseLeagueDetails = (id) => {
     return getLeagueDetails(id).then(data => {    
@@ -69,13 +86,13 @@ const parseLeagueStandings = (managerid) => {
             details += `${i + 1}. ${currentLeague.name} - league id: ${currentLeague.id} \nRank: ${currentLeague.entry_rank}`;
             details += change < 0 ? ` (↓${Math.abs(change)})\n` : ` (↑${change})\n`;
         }
-        
+
         return details;
     }).catch(err => `Unable to retrieve league standings for manager id ${managerid}. If you have entered your manager id incorrectly, please use /edit to correct it.`);
 }
 
 //parseMyTeam('fuzyll10598@gmail.com', 'S9815467a28136', '2389247').then(res => console.log(res));
 //parseUserDetails('2389247').then(data => console.log(data));
-module.exports = {parseCurrentGameweekFixtures, parseLeagueDetails, parseMyTeam, parseLeagueStandings};
+module.exports = {isValidLeagueId, isValidManagerId, parseLeagueId, parseCurrentGameweekFixtures, parseLeagueDetails, parseMyTeam, parseLeagueStandings};
 
 
