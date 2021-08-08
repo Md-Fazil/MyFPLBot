@@ -80,7 +80,7 @@ const parseLeagueStandings = (managerid) => {
         let details = `${data.name}\nCurrent gameweek points: ${data.summary_event_points}\nTotal points: ${data.summary_overall_points}\n\nOverall Standings:\n`;
         const leagues = data.leagues.classic;
 
-        for(let i = 0; i < leagues.length; i++) {
+        for (let i = 0; i < leagues.length; i++) {
             let currentLeague = leagues[i];
             const change = currentLeague.entry_rank - currentLeague.entry_last_rank;
             details += `${i + 1}. ${currentLeague.name} - league id: ${currentLeague.id} \nRank: ${currentLeague.entry_rank}`;
@@ -91,8 +91,6 @@ const parseLeagueStandings = (managerid) => {
     }).catch(err => `Unable to retrieve league standings for manager id ${managerid}. If you have entered your manager id incorrectly, please use /edit to correct it.`);
 }
 
-//parseMyTeam('fuzyll10598@gmail.com', 'S9815467a28136', '2389247').then(res => console.log(res));
-//parseUserDetails('2389247').then(data => console.log(data));
 module.exports = {isValidLeagueId, isValidManagerId, parseLeagueId, parseCurrentGameweekFixtures, parseLeagueDetails, parseMyTeam, parseLeagueStandings};
 
 

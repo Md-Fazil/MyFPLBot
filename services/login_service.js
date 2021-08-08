@@ -10,6 +10,4 @@ const login = (username, password, managerid) => {
                 .then(() =>{return agent.get(`https://fantasy.premierleague.com/api/my-team/${managerid}/`).then(res => {return res.body})});
 }
 
-//login('fuzyll10598@gmail.com', 'S9815467a28136', '2389247').then(data => console.log(data));
-
 module.exports = {login};

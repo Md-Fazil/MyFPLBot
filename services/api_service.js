@@ -21,7 +21,6 @@ const getPlayerDetails = () => {
     return getGeneralDetails().then(response => response.elements);
 }
 
-//requires authenthication
 const getManagerDetails = (managerid) => {
     return axios.get(`https://fantasy.premierleague.com/api/entry/${managerid}/history/`, header);
 }
@@ -29,7 +28,6 @@ const getManagerDetails = (managerid) => {
 const getUserBasicInformation = (managerid) => {
     return axios.get(`https://fantasy.premierleague.com/api/entry/${managerid}/`, header).then(response => response.data);
 }
-//getUserBasicInformation('2389247').then(x => console.log(x.leagues.classic));
 
 module.exports = {getLeagueDetails, getFixtures, getTeamDetails, getPlayerDetails, getManagerDetails, getUserBasicInformation};
 

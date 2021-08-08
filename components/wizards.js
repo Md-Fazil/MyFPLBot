@@ -7,7 +7,7 @@ ctx => {
     ctx.reply(setManagerIdMessage);
     return ctx.wizard.next();
 },
-ctx =>{
+ctx => {
     const message = ctx.message.text;
     if (!isValidManagerId(message)) {
         ctx.reply(invalidManagerId);
@@ -26,7 +26,7 @@ ctx => {
 });
 
 const viewLeagueDetails = new Scenes.WizardScene("league",
-ctx =>{
+ctx => {
     const message = ctx.message.text;
     if (!isValidLeagueId(message)) {
         ctx.reply(invalidLeagueId);
@@ -39,7 +39,7 @@ ctx =>{
 
 const viewMyStandings = new Scenes.WizardScene("standings",
 ctx => { 
-    if(ctx.session.managerId === undefined) {
+    if (ctx.session.managerId === undefined) {
         ctx.reply(setManagerIdMessage);
         return ctx.wizard.next();
     } else {
@@ -64,17 +64,17 @@ ctx => {
     ctx.reply("Please key in your Fantasy Premier League login email.");
     return ctx.wizard.next();
 },
-ctx =>{
+ctx => {
     ctx.wizard.state.login = ctx.message.text;
     ctx.reply(`Got it! Your login email is ${ctx.wizard.state.login}.\n Please key in your password.`);
     return ctx.wizard.next();
 },
-ctx =>{
+ctx => {
     ctx.wizard.state.password = ctx.message.text;
     ctx.reply(`Got it! Your password is ${ctx.wizard.state.password}. ` + setManagerId);
     return ctx.wizard.next();
 },
-ctx =>{ 
+ctx => { 
     ctx.wizard.state.managerid = ctx.message.text;
     ctx.reply(`Got it! Your manager id is ${ctx.wizard.state.managerid}.\nPlease wait...`);
     parseMyTeam(ctx.wizard.state.login, ctx.wizard.state.password, ctx.wizard.state.managerid).then(data => ctx.reply(data));
